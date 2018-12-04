@@ -5,7 +5,6 @@ import time
 import aiohttp
 import jwt
 from gidgethub.aiohttp import GitHubAPI
-from gidgethub.sansio import create_headers
 
 
 def get_jwt(app_id):
@@ -38,23 +37,17 @@ async def get_installation(gh, jwt, username):
 
 
 async def get_installation_access_token(gh, jwt, installation_id):
-
     # doc: https: // developer.github.com/v3/apps/#create-a-new-installation-token
 
-    # Currently gidgethub.GitHubAPI.post requires a `data` argument.
-    # Workaround, until https://github.com/brettcannon/gidgethub/issues/70 gets resolved.
-    async with aiohttp.ClientSession() as session:
-        request_headers = create_headers(
-            "Mariatta",
-            jwt=jwt,
-            accept="application/vnd.github.machine-man-preview+json",
-        )
-        access_token_url = (
-            f"https://api.github.com/app/installations/{installation_id}/access_tokens"
-        )
-        async with session.post(access_token_url, headers=request_headers) as resp:
-            response = await resp.json()
-
+    access_token_url = (
+        f"https://api.github.com/app/installations/{installation_id}/access_tokens"
+    )
+    response = await gh.post(
+        access_token_url,
+        data=b"",
+        jwt=jwt,
+        accept="application/vnd.github.machine-man-preview+json",
+    )
     # example response
     # {
     #   "token": "v1.1f699f1069f60xxx",
