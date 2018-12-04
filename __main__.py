@@ -5,7 +5,6 @@ import time
 import aiohttp
 import jwt
 from gidgethub.aiohttp import GitHubAPI
-from gidgethub.sansio import create_headers
 
 
 def get_jwt(app_id):
