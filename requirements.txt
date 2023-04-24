@@ -1,4 +1,4 @@
 aiohttp==3.8.4
 gidgethub==5.2.1
 PyJWT==2.6.0
-cryptography==36.0.2
+cryptography==40.0.2
